@@ -1,5 +1,6 @@
 require "nifipi/version"
 
 module Nifipi
-  # Your code goes here...
+  class Nifi
+  end 
 end
