@@ -11,7 +11,7 @@ describe Nifipi do
     expect(Nifipi::VERSION).not_to be nil
   end
 
-  it 'sets @hostname and @port on which to access api' do
+  it 'sets hostname and port on which to access api' do
     expect(@host).to eq(@nifi.host)
     expect(@port).to eq(@nifi.port)
   end

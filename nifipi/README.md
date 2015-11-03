@@ -1,8 +1,6 @@
 # Nifipi
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/nifipi`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Nifipi is a Ruby wrapper around the NiFi rest api. It is designed primarily to help automate some tasks that are difficult to do through the browser.
 
 ## Installation
 
@@ -25,6 +23,8 @@ Or install it yourself as:
 TODO: Write usage instructions here
 
 ## Development
+
+Note: Running the test suite currently requires a nifi instance be reachable at http://localhost:8080
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
