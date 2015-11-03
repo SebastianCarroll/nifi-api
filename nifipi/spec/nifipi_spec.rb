@@ -5,7 +5,11 @@ describe Nifipi do
     expect(Nifipi::VERSION).not_to be nil
   end
 
-  it 'compiles' do
-    nifi = Nifipi::Nifi
+  it 'sets hostname and port on which to access api' do
+    host = 'localhost'
+    port = '8080'
+    nifi = Nifipi::Nifi.new host, port
+    expect(host).to eq(nifi.host)
+    expect(port).to eq(nifi.port)
   end
 end
