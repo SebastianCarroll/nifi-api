@@ -28,5 +28,19 @@ module Nifipi
       revision = JSON.parse(Net::HTTP.get_response(uri).body)
       return revision["revision"]
     end
+
+    def add(type)
+      uri = URI.parse("http://#{@host}:#{@port}/nifi-api/controller/process-groups/root/processors")
+      rev = revision
+      data = {
+        "revision" => rev,
+        "processor" => {
+          "type"=> type
+        },
+      }
+      req = Net::HTTP.new(uri.host, uri.port)
+      res = req.post(uri.path, data.to_json, Nifipi::JSON_HEADER)
+      return res
+    end
   end 
 end

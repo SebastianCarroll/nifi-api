@@ -37,4 +37,10 @@ describe Nifipi do
     expect(actual.key? "version").to be
     expect(actual.key? "lastModifier").to be
   end
+
+  it 'adds a processor' do
+    type = "org.apache.nifi.processors.twitter.GetTwitter"
+    res = @nifi.add type
+    expect(res.code.to_i).to be < 400
+  end
 end
