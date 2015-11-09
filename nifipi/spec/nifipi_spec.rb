@@ -38,9 +38,9 @@ describe Nifipi do
     expect(actual.key? "lastModifier").to be
   end
 
-  it 'adds a processor' do
+  it 'creates a processor' do
     type = "org.apache.nifi.processors.twitter.GetTwitter"
-    res = @nifi.add type
+    res = @nifi.create type
     expect(res.code.to_i).to be < 400
   end
 end

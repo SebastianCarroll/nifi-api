@@ -29,7 +29,7 @@ module Nifipi
       return revision["revision"]
     end
 
-    def add(type)
+    def create(type)
       uri = URI.parse("http://#{@host}:#{@port}/nifi-api/controller/process-groups/root/processors")
       rev = revision
       data = {
