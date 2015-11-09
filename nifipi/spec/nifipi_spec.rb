@@ -29,7 +29,6 @@ describe Nifipi do
     #File.write('spec/test.txt', @nifi.get_all.to_s)
     procs = @nifi.get_all
     expect(procs.is_a?(Array)).to be
-    expect(procs.length).to be > 0
   end
 
   it 'gets the revision' do
