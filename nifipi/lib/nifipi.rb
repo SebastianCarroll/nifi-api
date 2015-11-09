@@ -6,39 +6,50 @@ module Nifipi
   JSON_HEADER = {"Content-Type" => "application/json"}
   class Nifi
     attr_accessor :host, :port
+
     def initialize(host, port)
       @host = host
       @port = port
+      @base_uri = "http://#{@host}:#{@port}/nifi-api/controller"
+      @rev_url = "#{@base_uri}/revision"
+      @proc_url = "#{@base_uri}/process-groups/root/processors"
     end  
 
+    # Gets the current version of the flow file NiFi is running
     def version
-      uri = URI("http://#{@host}:#{@port}/nifi-api/controller/revision")
-      revision = JSON.parse(Net::HTTP.get_response(uri).body)
-      return revision["revision"]["version"]
+      rev = revision
+      return rev["version"]
     end
 
+    # Returns all the current processes in JSON format
     def get_all
-      uri = URI("http://#{@host}:#{@port}/nifi-api/controller/process-groups/root/processors")
-       procs= JSON.parse(Net::HTTP.get_response(uri).body)
+      uri = URI(@proc_url)
+      procs= JSON.parse(Net::HTTP.get_response(uri).body)
       return procs["processors"]
     end
 
+    # Queries NiFi for the current revision object
     def revision
-      uri = URI("http://#{@host}:#{@port}/nifi-api/controller/revision")
+      uri = URI(@rev_url)
       revision = JSON.parse(Net::HTTP.get_response(uri).body)
       return revision["revision"]
     end
 
+    # Create a processor
+    # Params:
+    # +type+: Fully qualified type of the processor
+    #
+    # Example:
+    # nifi.create "org.apache.nifi.processors.twitter.GetTwitter" 
     def create(type)
-      uri = URI.parse("http://#{@host}:#{@port}/nifi-api/controller/process-groups/root/processors")
-      rev = revision
+      uri = URI(@proc_url)
       data = {
-        "revision" => rev,
+        "revision" => revision,
         "processor" => {
           "type"=> type
         },
       }
-      req = Net::HTTP.new(uri.host, uri.port)
+      req = Net::HTTP.new(@host, @port)
       res = req.post(uri.path, data.to_json, Nifipi::JSON_HEADER)
       return res
     end
