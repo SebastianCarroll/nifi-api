@@ -24,4 +24,18 @@ describe Nifipi do
     expected= {"Content-Type" => "application/json"}
     expect(Nifipi::JSON_HEADER).to eq(expected)
   end
+
+  it 'gets all processors' do
+    #File.write('spec/test.txt', @nifi.get_all.to_s)
+    procs = @nifi.get_all
+    expect(procs.is_a?(Array)).to be
+    expect(procs.length).to be > 0
+  end
+
+  it 'gets the revision' do
+    actual = @nifi.revision
+    expect(actual.key? "clientId").to be
+    expect(actual.key? "version").to be
+    expect(actual.key? "lastModifier").to be
+  end
 end
