@@ -40,8 +40,12 @@ describe Nifipi do
 
   it 'creates a processor with a custom name' do
     type = "org.apache.nifi.processors.twitter.GetTwitter"
-    opts = {"name" => "test-name-34"}
-    res = @nifi.create(type, opts)
+    add = rand
+    opts = {
+      "name" => "test-name-#{add}",
+      "type" => type,
+    }
+    res = @nifi.create opts
     expect(res.code.to_i).to be < 400
     procs = @nifi.get_all.select{|p| p["name"] == opts["name"]}
     expect(procs.length).to eq(1)

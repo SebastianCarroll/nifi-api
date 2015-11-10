@@ -41,9 +41,8 @@ module Nifipi
     #
     # Example:
     # nifi.create "org.apache.nifi.processors.twitter.GetTwitter" 
-    def create(type, opts)
+    def create(opts)
       uri = URI(@proc_url)
-      opts["type"] ||= type
       data = {
         "revision" => revision,
         "processor" => opts,
