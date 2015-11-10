@@ -59,9 +59,21 @@ module Nifipi
       return res
     end
 
+    # Queries service for all connections
     def get_all_connections
       resp = JSON.parse(Net::HTTP.get_response(URI(@conn_url)).body)
       resp["connections"]
+    end
+
+    def create_connection(opts)
+      uri = URI(@conn_url)
+      data = {
+        "revision" => revision,
+        "connection" => opts,
+      }
+      req = Net::HTTP.new(@host, @port)
+      res = req.post(uri.path, data.to_json, Nifipi::JSON_HEADER)
+      return res
     end
   end 
 end

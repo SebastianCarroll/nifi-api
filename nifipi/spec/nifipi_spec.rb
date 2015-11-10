@@ -55,4 +55,24 @@ describe Nifipi do
     conns = @nifi.get_all_connections
     expect(conns.is_a?(Array)).to be
   end
+
+  it 'creates a connection' do
+    procs = []
+    2.times do
+      opts = {
+        "name" => "conn-test-#{rand}",
+        "type" => "org.apache.nifi.processors.twitter.GetTwitter",
+      }
+      procs << opts
+      @nifi.create opts
+    end
+
+    all_procs = @nifi.get_all
+    source = all_procs.select{|p| p["name"] == procs[0]["name"]}.first.select{|k| k=="id"}
+    dest = all_procs.select{|p| p["name"] == procs[1]["name"]}.first.select{|k| k=="id"}
+
+    conn_opts = { "source" => source, "destination" => dest, "selectedRelationships" => ["success"]}
+    res = @nifi.create_connection conn_opts
+    expect(res.code.to_i).to be < 400
+  end
 end
