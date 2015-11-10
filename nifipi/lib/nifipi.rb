@@ -13,6 +13,7 @@ module Nifipi
       @base_uri = "http://#{@host}:#{@port}/nifi-api/controller"
       @rev_url = "#{@base_uri}/revision"
       @proc_url = "#{@base_uri}/process-groups/root/processors"
+      @conn_url = "#{@base_uri}/process-groups/root/connections"
     end  
 
     # Gets the current version of the flow file NiFi is running
@@ -56,6 +57,11 @@ module Nifipi
       req = Net::HTTP.new(@host, @port)
       res = req.post(uri.path, data.to_json, Nifipi::JSON_HEADER)
       return res
+    end
+
+    def get_all_connections
+      resp = JSON.parse(Net::HTTP.get_response(URI(@conn_url)).body)
+      resp["connections"]
     end
   end 
 end

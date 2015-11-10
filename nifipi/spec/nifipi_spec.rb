@@ -50,4 +50,9 @@ describe Nifipi do
     procs = @nifi.get_all.select{|p| p["name"] == opts["name"]}
     expect(procs.length).to eq(1)
   end
+
+  it 'gets all connections' do 
+    conns = @nifi.get_all_connections
+    expect(conns.is_a?(Array)).to be
+  end
 end
