@@ -38,9 +38,12 @@ describe Nifipi do
     expect(actual.key? "lastModifier").to be
   end
 
-  it 'creates a processor' do
+  it 'creates a processor with a custom name' do
     type = "org.apache.nifi.processors.twitter.GetTwitter"
-    res = @nifi.create type
+    opts = {"name" => "test-name-34"}
+    res = @nifi.create(type, opts)
     expect(res.code.to_i).to be < 400
+    procs = @nifi.get_all.select{|p| p["name"] == opts["name"]}
+    expect(procs.length).to eq(1)
   end
 end

@@ -41,13 +41,12 @@ module Nifipi
     #
     # Example:
     # nifi.create "org.apache.nifi.processors.twitter.GetTwitter" 
-    def create(type)
+    def create(type, opts)
       uri = URI(@proc_url)
+      opts["type"] ||= type
       data = {
         "revision" => revision,
-        "processor" => {
-          "type"=> type
-        },
+        "processor" => opts,
       }
       req = Net::HTTP.new(@host, @port)
       res = req.post(uri.path, data.to_json, Nifipi::JSON_HEADER)
