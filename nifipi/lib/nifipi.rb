@@ -37,10 +37,16 @@ module Nifipi
 
     # Create a processor
     # Params:
-    # +type+: Fully qualified type of the processor
+    # +opts+: Hash representation of the ProcessorDTO
+    #  Must contain key "type" which is the fully qualified java type of the processor
     #
-    # Example:
-    # nifi.create "org.apache.nifi.processors.twitter.GetTwitter" 
+    # Examples:
+    # Minimal:
+    # nifi.create {"type" => "org.apache.nifi.processors.twitter.GetTwitter"}
+    #
+    # Custom name:
+    # opts = {"type" => "org.<etc>.GetTwitter", "name" => "random-test-99"}
+    # nifi.create opts
     def create(opts)
       uri = URI(@proc_url)
       data = {
