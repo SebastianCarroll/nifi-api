@@ -63,15 +63,14 @@ describe Nifipi do
         "name" => "conn-test-#{rand}",
         "type" => "org.apache.nifi.processors.twitter.GetTwitter",
       }
-      procs << opts
-      @nifi.create opts
+      created = @nifi.create(opts)
+      procs << JSON.parse(created.body)["processor"]["id"]
     end
 
-    all_procs = @nifi.get_all
-    source = all_procs.select{|p| p["name"] == procs[0]["name"]}.first.select{|k| k=="id"}
-    dest = all_procs.select{|p| p["name"] == procs[1]["name"]}.first.select{|k| k=="id"}
-
-    conn_opts = { "source" => source, "destination" => dest, "selectedRelationships" => ["success"]}
+    conn_opts = { 
+      "source" => {"id" => procs.first.to_s}, 
+      "destination" => {"id" => procs.last.to_s}, 
+      "selectedRelationships" => ["success"]}
     res = @nifi.create_connection conn_opts
     expect(res.code.to_i).to be < 400
   end
